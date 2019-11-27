@@ -70,7 +70,9 @@ def search_story(rooted_word):
         story=[]
         for w in rooted_word:
                 tmp=cur.execute(''' select title,url,rating,year from MoviesData where storyline like '%'||?||'%';''',(w+' ',)).fetchall()
-                if story:
+                print("<br>")
+		#print(tmp)
+		if story:
                         tmp2=[v for v in story if v in tmp]
                         if tmp2:
                                 story=tmp2
@@ -78,7 +80,7 @@ def search_story(rooted_word):
                                 story.extend(tmp)
                 else:
                         story=tmp
-        return story
+	return story
 
 
 def search_across_token(lst):
@@ -100,43 +102,42 @@ def search_title_actor_char(lst):
         char=cur.execute(''' select title,url,rating,year from MoviesData where character like '%'||?||'%';''',(words[i]+' ',)).fetchall()
         return title,actor,char
 
-title=cur.execute(''' select title,url,rating,year from MoviesData where title =?;''',(value,)).fetchall()
-if title:
-        #print(title)
-        sys.exit()
+
+lst = []
+flag = 0
+lst = cur.execute(''' select title,url,rating,year from MoviesData where title =?;''',(value,)).fetchall()
+if lst:
+        flag = 1
+
+if (len(words)>5 and (flag == 0)):
+	#rooted_word = root_word(words)
+	lst = search_story(words)
+	flag = 1
 
 query='select title,url,rating,year from MoviesData where ('
 l,l2,l3,l4,=[],[],[],[]
 target_list=[[],[],[],[],[]]
 
+if(flag==0):
+	for i in range(len(words)):
+        	if words[i].isdigit():
+        	        word=int(words[i])
+        	        l=cur.execute(''' select title,url,rating,year from MoviesData where (year =? );''',(word,)).fetchall()
+        	        target_list[i]=l
 
-story=[]
-if len(words)>5:
-        story=search_story(words)
-        #print(story)
-        #print(len(story))
-        sys.exit()
+        	elif words[i] in genre:
+                	finalquery=query+words[i]+'=?)'
+                	l=cur.execute(finalquery,(1,)).fetchall()
+                	target_list[i]=l
+
+        	else :
+        	        title,actor,char=[],[],[]
+        	        title,actor,char=search_title_actor_char(words[i])
+        	        target_list[i]=list(set(title)|set(actor)|set(char))
 
 
-for i in range(len(words)):
-
-        if words[i].isdigit():
-                word=int(words[i])
-                l=cur.execute(''' select title,url,rating,year from MoviesData where (year =? );''',(word,)).fetchall()
-                target_list[i]=l
-
-        elif words[i] in genre:
-                final_query=query+words[i]+'=?)'
-                l=cur.execute(final_query,(1,)).fetchall()
-                target_list[i]=l
-
-        else :
-                title,actor,char=[],[],[]
-                title,actor,char=search_title_actor_char(words[i])
-                target_list[i]=list(set(title)|set(actor)|set(char))
-
-lst=[]
-lst=search_across_token(target_list)
+if(flag == 0):
+	lst=search_across_token(target_list)
 
 print('''<section><article class ="py-4 text-center text-white<div>''')
 print('''<p align="center"><font color = "blue" size = "5"><b>Predicted Result</font></p>''')
