@@ -31,17 +31,24 @@ Furthermore, this tool can also be used to recommend the movie to the user query
 
 **************************************************
 How to host : 
-
-1.
-2.  Install XAMPP and set the path to the source code ””
-3.  Make  the  database  from  the  given  file  movieDatabase.py,  using  the  following
-    command:
-    python3 movieDatabase.py
-    (prerequisite :python3 and SQLite)
-4.  Launch XAMPP and start the server
-5.  open your favourite browser and put the following url : localhost/search.py
-6.  In the search query given at the top-right corner of the website opened,
-    the user can give the query. 
-7.	You would be redirected to the output!
+1. Clone the repositry from the git link given in readme.txt
+2. Fetch the preprocessed csv file from the path: ../../web/preprocessing/dataset.csv
+3. Clean the file or take the final MoviesData.csv file from ../../web/moviesData.csv
+4. Install XAMPP and set the path to the source code ”../web/”
+5. Make the database from the given file createMovieDB.py, using the fol-
+lowing command:
+python3 createMovieDB.py
+(prerequisite : python3 and SQLite are already installed)
+6. Launch XAMPP and start the server
+7. open your favourite browser and put the following url : localhost/moviePrediction.py
+8. In the search query given at the top-right corner of the website opened,
+   the user can give the query. Note that the following few assumptions are
+   made for the query:
+   (a) If query length <6, then the search is made on all attributes of
+       the extended dataset except storyline.
+   (b) If query length >5, then the search is made on the storyline only.
+	   The best matched entry is returned.
+9. The webpage would redirect to the output page where the results can be
+seen
 **************************************************
 
