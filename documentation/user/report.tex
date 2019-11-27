@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{dirtytalk}
+\title{\textbf{\Huge{Movie Recommendation System}}}
+\author{\vspace{1cm}
+\huge{Team : Unknown}\\
+\large{193050071, Rohit Kumar}\\
+\large{193050003, Suraj Kumar}\\
+\large{193059002, Rajershi Gupta}
+}
+\vspace{1cm}
+\date{27th November, 2019 }
+
+\begin{document}
+    \maketitle
+    \newpage
+	\tableofcontents
+	\setcounter{page}{1}
+	\newpage
+\section{Introduction}
+    Wikipedia states \say{A \textit{recommender} system or a recommendation system (sometimes replacing system with a synonym such as platform or engine) is a subclass of information filtering system that seeks to predict the "rating" or "preference" a user would give to an item}. The term recommendation is very abstract and therefore leads to subject to interpretation. Coming to our project of a Movie Recommendation System, we give the user one search box, wherein the user queries, whatsoever he/she remembers about a particular movie.Then, we do a token-wise match to our extended dataset. Thus, producing a
+result which would be the most probable set of movies, as per the user search information.
+
+\subsection{Prior Work}
+    Recommender systems are made and used widely in different fields of engineering. There have been many blogs and post  which discuss about various filtering techniques. Though for this project we used a simple filter which runs on the tokenized input to give the most probable output from a given dataset. 
+\subsection{Dataset and Preprocessing}
+    The IMDB dataset was taken from Kaggle from the following url:\\
+    https://www.kaggle.com/orgesleka/imdbmovies\\
+    The dataset has nearly 14000 movies each with attributes:
+    \textit{tid,title,\\wordsInTitle,url,imdbRating,ratingCount,
+    duration,year,type,nrOfWins,\\nrOfNominations,Animation,Biography,Comedy,
+    Crime,Documentary,\\Drama,Family,Fantasy,FilmNoir,GameShow,History,RealityTV,Romance,\\SciFi,Short,Sport,TalkShow,Thriller,War,Western}\\
+    The total number of attributes being 44. 
+    
+    The extended dataset is made which has the following attributes in addition to the Kaggle IMDB dataset:
+    actor(s), character(s), title(English) and storyline.
+    Also, certain attributes are discareded from the Kaggle dataset which are not required for the search and results. For example,
+    nrOfWins,nrOfNominations,
+    nrOfPhotos,nrOfNewsArticles,nrOfUserReviews,nrOfGenre etc.
+    Finally, a total of 36 attributes were present in the extended dataset.
+    
+\subsection{Objectives of the Project}
+  We will make a movie recommendation system wherein the user
+queries, whatsoever he/she remembers, are put in the search box
+and we do a token-wise match to the extended dataset. 
+\begin{itemize}
+\item To extend the initial Kaggle dataset(using Web scraping) which will include actor(s),character(s) and storyline and title,in English) from the available dataset. The extended dataset will also have discard the useless attributes which are not required. 
+\item To make a web interface which will have input the user search query and henceforth show the required output.
+\item To give most logical output and do an efficient search on the search query.
+\end{itemize}
+\section{Motivation}
+ At times when we want to recommend a movie to one of our friends we somehow do not remember the name of the movie. Rather, something sticks with us about the movie, be it the actor or character etc. Therefore, we thought if the user queries the actor(s) or character(s) or title or story of the movie, then we can output the most probable movie from the dataset, with all its details in the dataset to the user.Adding to that, movies that are still relevant to the search query are also given with their names.
+ Furthermore, this tool can also be used to recommend the movie to the user query according to the relevant search the user makes, to reccomend user certain similar kind of movies.(by Genre, Actor(s), Character(s), StoryLine etc.)
+ 
+ \section{User Documentation}
+ The extended dataset has the following attributes:
+ 
+The following steps are required for the user to get the movie recommended by our system : 
+\begin{enumerate}
+    \item Clone the repositry from the git link given in readme.txt 
+    \item Fetch the preprocessed csv file from the path:
+    ../../web/preprocessing/dataset.csv
+    \item Clean the file or take the final MoviesData.csv file from ../../web/moviesData.csv
+    \item Install XAMPP and set the path to the source code "../web/"
+    \item Make the database from the given file createMovieDB.py, using the following command:\newline
+    \textit{python3 createMovieDB.py} \newline
+    (prerequisite : \textbf{python3} and \textbf{SQLite} are already installed)
+    \item Launch \textbf{XAMPP} and start the server
+    \item open your favourite browser and put the following url : 
+    \textit{localhost/moviePrediction.py}
+    \item In the search query given at the top-right corner of the website opened, the user can give the query. Note that the following few assumptions are made for the query:
+        \begin{enumerate}
+        \item If \textbf{query length \textless  6}, then the search is made on all attributes of the extended dataset except storyline.
+        \item \textbf{If query length \textgreater 5}, then the search is made on the storyline only. The best matched entry  is returned.
+        \end{enumerate}
+    \item The webpage would redirect to the output page where the results can be seen
+\end{enumerate}
+
+\section{What all works and what not?}
+\subsection{Usefulness of the project}
+This project can be used in two practical scenarios:
+\begin{itemize}
+    \item When one has to recommend a movie to a peer and the name of the movie is long forgotten, the a search with whatever one remembers: the storyline or character,actor, title, release year etc. will give the most probable outcomes.
+    \item When one has to see a certain kind of movies, then a search gives many movies that one can relate to with the queried input
+\end{itemize}
+The extended dataset is very proficiently build from the Kaggle dataset. It can be used for any future projects too. The search query works well for many tested cases. Additionally, the code for search query is written considering to output best results in mind and not optimised for the fastest results. Since, the difference in time of results will be insignificant in real life.    
+\subsection{Limitations}
+Following are the listed drawbacks or pitfalls of the output:
+\begin{itemize}
+    \item Movies are only present from 1890s to 2015, which may not include all the movies that were released in this time frame.
+    \item The code for search query is optimized and is written considering practical cases in mind, which may not always result in the result the user expects.
+\end{itemize}
+\end{document} 
